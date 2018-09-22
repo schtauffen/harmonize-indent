@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { filter, identity, map, pipe, split, trim } = require('ramda')
+const { __, curryN, filter, identity, map, not, pipe, split, trim } = require('ramda')
 const mm = require('micromatch')
 
 const handleIggy = pipe(
@@ -17,4 +17,7 @@ try {
   globs = []
 }
 
-console.log(globs)
+const contains = curryN(2, mm.contains)
+const ignoreFiles = filter(pipe(contains(__, globs), not))
+
+module.exports = ignoreFiles
