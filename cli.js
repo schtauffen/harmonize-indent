@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const path = require('path')
-const mkdirp = require('mkdirp')
+const mkdirp = require('mkdirp-promise')
 const fsPromises = fs.promises
 
 // Helpers
@@ -26,13 +26,9 @@ const run = finishingMove => {
 
 const writeToDist = ({ filepath, body }) => {
   const outPath = path.join('dist', filepath)
-  // TODO - mkdirp promise version?
-  mkdirp(path.dirname(outPath), err => {
-    if (err) {
-      return console.error(err)
-    }
-    fsPromises.writeFile(outPath, body)
-  })
+  mkdirp(path.dirname(outPath))
+    .catch(err => console.error(err))
+    .then(() => fsPromises.writeFile(outPath, body))
 }
 
 run(writeToDist)
