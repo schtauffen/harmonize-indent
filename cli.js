@@ -9,8 +9,8 @@ const { map, filter, forEach, compose, replace } = require('ramda')
 const isDir = filepath => fs.lstatSync(filepath).isDirectory()
 const readFile = filepath => fsPromises.readFile(filepath, { encoding: 'utf8'})
   .then(body => ({ filepath, body }))
-const puke = err => console.error('🤮', err)
-const thumbsUp = filepath => console.log('👍', filepath)
+const puke = err => console.error(err, '🤮')
+const thumbsUp = filepath => console.log(filepath, '👍')
 
 // The star of the whole show
 const resolve = replace(/^\s+/mg, '')
@@ -18,7 +18,7 @@ const resolve = replace(/^\s+/mg, '')
 // Execute
 const run = finishingMove => {
   const files = filter(x => !isDir(x), process.argv.slice(2))
-  console.log('Harmonizing ✌️...\n', files)
+  console.log('Harmonizing ✌️...\n\n', files, '\n')
 
   const mapResolve = map(({ filepath, body }) => ({ filepath, body: resolve(body) }))
   const resolveAndFinish = compose(forEach(finishingMove), mapResolve)
@@ -37,4 +37,4 @@ const writeToDist = ({ filepath, body }) => {
 }
 
 run(writeToDist)
-  .then(() => console.log('🦋 The world will be a better place 🌺'))
+  .then(() => console.log('\n\nThank you, hero. You have made the world a better place. 🦋 🌺 🐈'))
