@@ -15,7 +15,7 @@ const getIgnoredGlobs = () => {
     return handleIggy(gitignore)
   } catch (err) {
     console.warn('.gitignore not found, or improperly formatted')
-    return []
+    return ['node_modules/']
   }
 }
 
