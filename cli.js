@@ -17,15 +17,14 @@ const resolve = replace(/^\s+/mg, '')
 
 // Execute
 const run = finishingMove => {
-  const args = process.argv.slice(2)
-  console.log('⏳ Harmonizing ✌️', args)
+  const files = filter(x => !isDir(x), process.argv.slice(2))
+  console.log('Harmonizing ✌️...\n', files)
 
   const mapResolve = map(({ filepath, body }) => ({ filepath, body: resolve(body) }))
-  const readFilesAsync = compose(map(readFile), filter(x => !isDir(x)))
   const resolveAndFinish = compose(forEach(finishingMove), mapResolve)
  
   return Promise
-    .all(readFilesAsync(args))
+    .all(map(readFile, files))
     .then(resolveAndFinish)
 }
 
