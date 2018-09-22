@@ -9,8 +9,8 @@ const { map, filter, forEach, replace } = require('ramda')
 const isDir = filepath => fs.lstatSync(filepath).isDirectory()
 const readFile = filepath => fsPromises.readFile(filepath, { encoding: 'utf8'})
   .then(body => ({ filepath, body }))
-const puke = err => console.error('PUKE:', err)
-const wink = filepath => console.log('WINK:', filepath)
+const puke = err => console.error('🤮', err)
+const thumbsUp = filepath => console.log('👍🏻', filepath)
 
 // The star of the whole show
 const resolve = replace(/^\s+/mg, '')
@@ -31,7 +31,7 @@ const writeToDist = ({ filepath, body }) => {
   const outPath = path.join('dist', filepath)
   mkdirp(path.dirname(outPath))
     .then(() => fsPromises.writeFile(outPath, body))
-    .then(wink(filepath))
+    .then(thumbsUp(filepath))
     .catch(puke)
 }
 
