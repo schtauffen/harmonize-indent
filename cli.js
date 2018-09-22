@@ -3,7 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const mkdirp = require('mkdirp-promise')
 const fsPromises = fs.promises
-const { map, filter, forEach, pipe, replace } = require('ramda')
+const { map, filter, forEach, compose, replace } = require('ramda')
 
 // Helpers
 const isDir = filepath => fs.lstatSync(filepath).isDirectory()
@@ -20,13 +20,13 @@ const run = finishingMove => {
   const args = process.argv.slice(2)
   console.log('⏳ Harmonizing ✌️', args)
 
-  const resolveAll = ({ filepath, body }) => ({ filepath, body: resolve(body) })
-  const filtered = filter(x => !isDir(x), args)
+  const mapResolve = map(({ filepath, body }) => ({ filepath, body: resolve(body) }))
+  const readFilesAsync = compose(map(readFile), filter(x => !isDir(x)))
+  const resolveAndFinish = compose(forEach(finishingMove), mapResolve)
  
   return Promise
-    .all(map(readFile, filtered))
-    .then(map(resolveAll))
-    .then(forEach(finishingMove))
+    .all(readFilesAsync(args))
+    .then(resolveAndFinish)
 }
 
 const writeToDist = ({ filepath, body }) => {
