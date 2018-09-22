@@ -9,7 +9,7 @@ const handleIggy = pipe(
   filter(identity)
 )
 
-const getIgnoredGlobs = () => {
+const glob = (() => {
   try {
     const gitignore = fs.readFileSync(path.join(__dirname, './.gitignore'), { encoding: 'utf8' })
     return handleIggy(gitignore)
@@ -17,9 +17,9 @@ const getIgnoredGlobs = () => {
     console.warn('.gitignore not found, or improperly formatted')
     return ['node_modules/']
   }
-}
+})().concat('.git')
 
 const contains = curryN(2, mm.contains)
-const ignoreFiles = filter(pipe(contains(__, getIgnoredGlobs()), not))
+const ignoreFiles = filter(pipe(contains(__, glob), not))
 
 module.exports = ignoreFiles
