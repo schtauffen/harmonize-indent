@@ -27,9 +27,8 @@ const getFilesFromArgs = args => {
 }
 
 const writeToDist = ({ filepath, body }) => {
-  const outPath = path.join('dist', filepath)
-  mkdirp(path.dirname(outPath))
-    .then(() => fsPromises.writeFile(outPath, body))
+  mkdirp(path.dirname(filepath))
+    .then(() => fsPromises.writeFile(filepath, body))
     .then(thumbsUp(filepath))
     .catch(puke)
 }
