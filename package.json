@@ -9,7 +9,7 @@
   },
   "scripts": {
     "pretest": "rm -rf dist",
-    "test": "npm run start -- test-src/test.js",
+    "test": "npm run start -- test-src/**",
     "start": "./cli.js"
   },
   "author": "",
