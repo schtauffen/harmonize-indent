@@ -8,16 +8,17 @@ const handleIggy = pipe(
   filter(identity)
 )
 
-let globs
-try {
-  const gitignore = fs.readFileSync('./.gitignore', { encoding: 'utf8' })
-  globs = handleIggy(gitignore)
-} catch (err) {
-  console.warn('.gitignore not found, or improperly formatted')
-  globs = []
+const getIgnoredGlobs = () => {
+  try {
+    const gitignore = fs.readFileSync('./.gitignore', { encoding: 'utf8' })
+    return handleIggy(gitignore)
+  } catch (err) {
+    console.warn('.gitignore not found, or improperly formatted')
+    return []
+  }
 }
 
 const contains = curryN(2, mm.contains)
-const ignoreFiles = filter(pipe(contains(__, globs), not))
+const ignoreFiles = filter(pipe(contains(__, getIgnoredGlobs()), not))
 
 module.exports = ignoreFiles
