@@ -5,12 +5,15 @@
   "main": "index.js",
   "bin": "./cli.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "rm -rf dist",
+    "test": "npm run start -- test-src/test.js",
+    "start": "./cli.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "mkdirp-promise": "^5.0.1",
+    "ramda": "^0.25.0",
     "yargs": "^12.0.2"
   },
   "engines": {
