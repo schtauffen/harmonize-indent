@@ -8,7 +8,7 @@
     "ha": "./cli.js"
   },
   "scripts": {
-    "pretest": "mkdir test-src/ignore && cp test-src/test.js test-src/ignore/.",
+    "pretest": "mkdir -p test-src/ignore && cp test-src/main.ts test-src/ignore/.",
     "test": "npm run start -- test-src/**",
     "posttest": "rm -rf test-src/ignore",
     "start": "./cli.js"
