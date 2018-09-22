@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 const fs = require('fs')
+const path = require('path')
+const mkdirp = require('mkdirp')
 const fsPromises = fs.promises
 
 // Helpers
-const isDir = path => fs.lstatSync(path).isDirectory()
-const readFile = file => fsPromises.readFile(file, { encoding: 'utf8'})
+const isDir = filepath => fs.lstatSync(filepath).isDirectory()
+const readFile = filepath => fsPromises.readFile(filepath, { encoding: 'utf8'})
+  .then(body => ({ filepath, body }))
 const resolve = str => str.replace(/^\s+/mg, '')
 
 
@@ -15,11 +18,21 @@ const run = finishingMove => {
   Promise
     .all(files.map(readFile))
     .then(
-      strings => {
-        strings.map(resolve).forEach(finishingMove)
+      contexts => {
+        contexts.map(({ filepath, body }) => ({ filepath, body: resolve(body) })).forEach(finishingMove)
       }
     )
 }
 
-run(a => { console.log(a) })
+const writeToDist = ({ filepath, body }) => {
+  const outPath = path.join('dist', filepath)
+  // TODO - mkdirp promise version?
+  mkdirp(path.dirname(outPath), err => {
+    if (err) {
+      return console.error(err)
+    }
+    fsPromises.writeFile(outPath, body)
+  })
+}
 
+run(writeToDist)
