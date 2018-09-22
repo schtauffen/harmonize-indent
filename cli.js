@@ -1,9 +1,10 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --no-warnings
 const fs = require('fs')
 const path = require('path')
 const mkdirp = require('mkdirp-promise')
 const fsPromises = fs.promises
-const { map, not, reduce, filter, forEach, compose, replace, test } = require('ramda')
+const ignoreFiles = require('./ignore-files')
+const { map, reduce, filter, forEach, compose, replace, test } = require('ramda')
 
 // Helpers
 const isDir = filepath => fs.lstatSync(filepath).isDirectory()
@@ -11,11 +12,9 @@ const readFile = filepath => fsPromises.readFile(filepath, { encoding: 'utf8'})
   .then(body => ({ filepath, body }))
 const puke = err => console.error(err, '🤮')
 const thumbsUp = filepath => console.log(filepath, '👍')
-const ignoreFiles = filepath => !test(/ignoredir/, filepath)
 
 const getFilesFromArgs = args => {
   const filtered = filter(ignoreFiles, [].concat(args))
-  console.log('FILTERED', filtered)
 
   return reduce((accumulator, current) => {
     if (isDir(current)) {
