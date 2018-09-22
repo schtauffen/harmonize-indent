@@ -14,7 +14,7 @@ const puke = err => console.error(err, '🤮')
 const thumbsUp = filepath => console.log(filepath, '👍')
 
 const getFilesFromArgs = args => {
-  const filtered = filter(ignoreFiles, [].concat(args))
+  const filtered = ignoreFiles([].concat(args))
 
   return reduce((accumulator, current) => {
     if (isDir(current)) {
