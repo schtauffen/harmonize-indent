@@ -10,19 +10,20 @@ const isDir = filepath => fs.lstatSync(filepath).isDirectory()
 const readFile = filepath => fsPromises.readFile(filepath, { encoding: 'utf8'})
   .then(body => ({ filepath, body }))
 const puke = err => console.error('🤮', err)
-const thumbsUp = filepath => console.log('👍🏻', filepath)
+const thumbsUp = filepath => console.log('👍', filepath)
 
 // The star of the whole show
 const resolve = replace(/^\s+/mg, '')
 
-
 // Execute
 const run = finishingMove => {
-  const files = filter(x => !isDir(x), process.argv.slice(2))
+  const args = process.argv.slice(2)
+  console.log('⏳ Harmonizing ✌️', args)
+
   const resolveAll = ({ filepath, body }) => ({ filepath, body: resolve(body) })
  
-  Promise
-    .all(map(readFile, files))
+  return Promise
+    .all(map(readFile, filter(x => !isDir(x))))
     .then(map(resolveAll))
     .then(forEach(finishingMove))
 }
@@ -35,5 +36,5 @@ const writeToDist = ({ filepath, body }) => {
     .catch(puke)
 }
 
-
 run(writeToDist)
+  .then(() => console.log('🦋 The world will be a better place 🌺'))
