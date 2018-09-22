@@ -1,4 +1,4 @@
-#!/usr/bin/env node --no-warnings
+#!/usr/bin/env node
 const fs = require('fs')
 const path = require('path')
 const mkdirp = require('mkdirp-promise')
