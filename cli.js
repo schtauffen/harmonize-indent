@@ -4,7 +4,7 @@ const path = require('path')
 const mkdirp = require('mkdirp-promise')
 const fsPromises = fs.promises
 const ignoreFiles = require('./ignore-files')
-const { map, reduce, filter, forEach, compose, replace, test } = require('ramda')
+const { map, reduce, forEach, compose, replace } = require('ramda')
 
 // Helpers
 const isDir = filepath => fs.lstatSync(filepath).isDirectory()
@@ -42,7 +42,6 @@ const resolve = replace(/^\s+/mg, '')
 
 // Main
 const run = finishingMove => {
-  // const files = filter(x => !isDir(x), )
   const files = getFilesFromArgs(process.argv.slice(2))
   logBegin(files)
 
