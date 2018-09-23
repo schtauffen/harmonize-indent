@@ -11,7 +11,8 @@ const handleIggy = pipe(
 
 const glob = (() => {
   try {
-    const gitignore = fs.readFileSync(path.join(__dirname, './.gitignore'), { encoding: 'utf8' })
+    const pathToGitIgnore = path.join(process.cwd(), '.gitignore')
+    const gitignore = fs.readFileSync(pathToGitIgnore, { encoding: 'utf8' })
     return handleIggy(gitignore)
   } catch (err) {
     console.warn('.gitignore not found, or improperly formatted')
