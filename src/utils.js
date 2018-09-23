@@ -17,7 +17,7 @@ const getFilesFromArgs = args => {
   return reduce((accumulator, current) => {
     if (isDir(current)) {
       const files = fs.readdirSync(current).map(file => `${current}/${file}`)
-      return accumulator.concat(files)
+      return accumulator.concat(getFilesFromArgs(files))
     } else {
       return accumulator.concat(current)
     }
