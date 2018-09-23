@@ -1,8 +1,9 @@
 {
   "name": "@harmonize/indent",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Solve the tabs vs. spaces debate once and for all.",
+  "homepage": "https://github.com/schtauffen/harmonize-indent",
+  "main": "cli.js",
   "bin": {
     "harmonize": "./cli.js",
     "ha": "./cli.js"
