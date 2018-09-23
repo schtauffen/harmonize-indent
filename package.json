@@ -8,9 +8,9 @@
     "ha": "./cli.js"
   },
   "scripts": {
-    "pretest": "mkdir -p test-src/ignore && cp test-src/main.ts test-src/ignore/.",
-    "test": "npm run start -- test-src/**",
-    "posttest": "rm -rf test-src/ignore",
+    "pretest": "mkdir -p test/ignore && cp test/main.ts test/ignore/.",
+    "test": "npm run start -- test/**",
+    "posttest": "rm -rf test/ignore",
     "start": "./cli.js"
   },
   "author": "",
