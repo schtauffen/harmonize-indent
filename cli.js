@@ -12,7 +12,8 @@ const run = finishingMove => {
     return Promise.reject(Error('Sorry. The only command harmonize currently supports is `indent`. Please try: `ha indent "example/glob-or-filepath/**"'))
   }
 
-  const files = getFilesFromArgs(process.argv.slice(3))
+  const filePathArgs = process.argv.slice(3)
+  const files = getFilesFromArgs(filePathArgs.length ? filePathArgs : ['./'])
   log.releaseTheHarmony(files)
 
   const mapResolve = map(({ filepath, body }) => ({ filepath, body: resolve(body) }))
