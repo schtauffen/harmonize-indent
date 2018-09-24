@@ -8,7 +8,11 @@ const resolve = replace(/^\s+/mg, '')
 
 // Main
 const run = finishingMove => {
-  const files = getFilesFromArgs(process.argv.slice(2))
+  if (process.argv[2] !== 'indent') {
+    return Promise.reject(Error('Sorry. The only command harmonize currently supports is `indent`. Please try: `ha indent "example/glob-or-filepath/**"'))
+  }
+
+  const files = getFilesFromArgs(process.argv.slice(3))
   log.releaseTheHarmony(files)
 
   const mapResolve = map(({ filepath, body }) => ({ filepath, body: resolve(body) }))
@@ -22,3 +26,6 @@ const run = finishingMove => {
 // Execute
 run(writeToDist)
   .then(log.harmonyHasIncreased)
+  .catch(err => {
+    console.error(err)
+  })

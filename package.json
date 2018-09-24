@@ -10,7 +10,7 @@
   },
   "scripts": {
     "pretest": "mkdir -p test/ignore && cp test/main.ts test/ignore/.",
-    "test": "npm run start -- test/**",
+    "test": "npm run start -- indent test/**",
     "posttest": "rm -rf test/ignore",
     "start": "./cli.js"
   },
